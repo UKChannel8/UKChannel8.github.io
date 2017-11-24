@@ -4,11 +4,14 @@ title: {{ site.name }}
 ---
 
 <div id="home">
-  <form action="http://formspree.io/UKChannel8@gmail.com"
-      method="POST">
-    <input type="email" name="_replyto">
-    <input type="submit" name="button" value="Send">
+  <form id="formaction" method="POST">
+    <strong>Email: </strong><input type="email" name="email"><br />
+    <input type="submit" value="Send">
 </form>
+<script>
+    var contactform =  document.getElementById('formaction');
+    contactform.setAttribute('action', '//formspree.io/' + 'UKChannel8' + '@' + 'gmail' + '.' + 'com');
+</script>
 <!--<a href="#" class="btn">Submit</a>-->
   <br><br><br><br>
   <ul class="posts">
