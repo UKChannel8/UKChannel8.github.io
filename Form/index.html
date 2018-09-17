@@ -22,6 +22,11 @@
     min-width: 300px;
   }
 
+  #gdpr {
+    font-style: italic;
+    font-size: 13px;
+  }
+
   h1 {
     text-align: center;  
   }
@@ -242,11 +247,12 @@
     <h1>Television Questionnaire</h1>
       <div class="leftboldtext">Your details</div>
       <p><input id="inputtextbox" placeholder="Full name" oninput="this.className = ''" name="name"></p>
-      <p><input id="inputtextbox" placeholder="E-mail" oninput="this.className = ''" name="email"></p>
       <p><input id="inputtextbox" placeholder="What area do you live in?" oninput="this.className = ''" name="area"></p>
       <p><input id="inputtextbox" placeholder="Age" oninput="this.className = ''" name="age"></p>
       <p><input id="inputtextbox" placeholder="Gender" oninput="this.className = ''" name="gender"></p>
       <p><input id="inputtextbox" placeholder="Ethnicity" oninput="this.className = ''" name="ethnicity"></p>
+      <div id="gdpr">We'd love to keep you up to date on our progress - please add your email below and know that we will only use this data for information on our campaign and <b>we will not sell your data</b> on to 3rd parties.</div>
+      <p><input id="inputtextbox" placeholder="E-mail" oninput="this.className = ''" name="email"></p>
     </div>
 
   <div class="tab"><img class="logo" src="Channel 8 logo.jpg" alt="Channel 8">
