@@ -140,6 +140,28 @@
   .step.finish {
     background-color: #4CAF50;
   }
+
+  @-webkit-keyframes borderBlink {    
+    from, to {    
+        border-color: transparent    
+    }    
+    50% {    
+        border-color: red;   
+    }    
+  }    
+  @keyframes borderBlink {    
+      from, to {    
+          border-color: transparent    
+      }    
+      50% {    
+          border-color: red;  
+      }    
+  }    
+  .borderBlink{    
+      border:5px solid red;
+      -webkit-animation: borderBlink 1s step-end infinite;    
+      animation: borderBlink 1s step-end infinite;
+  }
   </style>
 </head>
 
@@ -257,9 +279,7 @@
 
   <div class="tab"><img class="logo" src="Channel 8 logo.jpg" alt="Channel 8">
     <br><br><div class="centralboldtext">Change is coming.</div><br><br>
-    
     <div class="fb-like" data-href="https://www.facebook.com/ukChannel8" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-
   <br><br>
   </div>
   
@@ -308,6 +328,7 @@ function showTab(n) {
   }
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").innerHTML = "Submit";
+    document.getElementById("nextBtn").classList.add("borderBlink");
   } else {
     document.getElementById("nextBtn").innerHTML = "Next";
   }
