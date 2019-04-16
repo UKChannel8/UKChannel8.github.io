@@ -1,0 +1,172 @@
+<head>
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+</head>
+<script src='https://code.jquery.com/jquery-3.4.0.min.js' integrity='sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=' crossorigin='anonymous'></script>
+
+<style>
+    * {
+        font-family: sans-serif;
+    }
+    #plot-area {
+        max-width: 800px;
+        text-align: center;
+    }
+    #button-group {
+        position:absolute;
+    }
+    .plot {
+        height: 300px;
+    }
+    .genre-button {
+        margin: 0.2em;
+        padding: 0.1em 0.3em;
+        border: 1px solid black;
+        background-color: white;
+    }
+    .genre-button:hover {
+        background-color: lightgrey;
+        -webkit-transition: background-color 100ms linear;
+        -ms-transition: background-color 100ms linear;
+        transition: background-color 100ms linear;
+    }
+    .genre-button:active {
+        background-color: darkgrey;
+    }
+    .selected {
+        background-color: darkgrey;
+    }
+    .tv-average-label {
+        font-weight: bold;
+    }
+    .genre-label {
+        font-weight: bold;
+    }
+</style>
+
+<body>
+
+    <div id='plot-area'>
+        <div id='tv-plot' class='plot'></div>
+        <div id='button-group'></div>
+    </div>
+  <script>
+
+    var plotGenre = function (genre) {
+        const index = data.Movies.Genre.indexOf(genre);
+        const genreMen = data.Movies.Men[index];
+        const genreWomen = data.Movies.Women[index];
+        const genreNA = data.Movies.NA[index];
+        console.log(genre,genreMen,genreWomen,genreNA)
+
+        var plotMen = JSON.parse(JSON.stringify(tvMen));
+        plotMen.x.push(genreMen);
+        plotMen.y.push(genre);
+        var plotWomen = JSON.parse(JSON.stringify(tvWomen));
+        plotWomen.x.push(genreWomen);
+        plotWomen.y.push(genre);
+        var plotNA = JSON.parse(JSON.stringify(tvNA));
+        plotNA.x.push(genreNA);
+        plotNA.y.push(genre);
+
+        $('.genre-button').each(function() {
+            $(this).removeClass('selected');
+        })
+        $('#'+genre).addClass('selected');
+
+        Plotly.newPlot('tv-plot', [plotMen, plotNA, plotWomen], layout, {displayModeBar: false});
+
+        $( "text[data-unformatted='TV Average']" ).addClass('tv-average-label');
+        $( "text[data-unformatted='"+genre+"']" ).addClass('genre-label');
+        $( "text[data-unformatted='"+genre+"']" ).text('Film Genre: '+genre);
+    }
+
+    data = {
+        'TV': {
+            'Channel': ['BBC One','BBC Two','ITV','Channel 4','Channel 5','','TV Average'],
+            'Men': [0.83,0.94,0.42,0.72,0.50,0,0.682],
+            'Women':[0.17,0.06,0.57,0.24,0.43,0,0.294],
+            'NA': [0,0,0.01,0.04,0.07,0,0.024],
+        },
+        'Movies': {
+            'Genre': ["Action", "Biography", "Comedy", "Crime", "Drama", "Horror", "Romance", "Sci-Fi"],
+            'Men': [0.71, 0.7, 0.6, 0.77, 0.66, 0.47, 0.55, 0.64],
+            'Women': [0.29, 0.3, 0.4, 0.23, 0.34, 0.53, 0.45, 0.36],
+            'NA': [0,0,0,0,0,0,0,0]
+        }
+    }
+
+    const arrayLength = data.Movies.Genre.length;
+    for (var i = 0; i < arrayLength; i++) {
+        $('#button-group').append($("<input id='"+data.Movies.Genre[i]+"' class='genre-button' type='button' value='"+data.Movies.Genre[i]+"'>"));
+        $('#'+data.Movies.Genre[i]).click(function(event) {
+            plotGenre(event.target.id);
+        });
+    };
+
+    var menObj = {
+        name: 'Men',
+        orientation: 'h',
+        marker: {
+            color: '#4A90E2',
+            width: 1
+        },
+        type: 'bar'
+    };
+
+    var womenObj = {
+        name: 'Women',
+        orientation: 'h',
+        type: 'bar',
+        marker: {
+            color: '#FFCCE7',
+            width: 1
+        }
+    };
+
+    var naObj = {
+        name: 'NA',
+        orientation: 'h',
+        type: 'bar',
+        marker: {
+            color: '#C7C7C7',
+            width: 1
+        }
+    };
+
+    var layout = {
+        title:'<b>Gender division on British TV compared to Hollywood films</b>',
+        margin: {
+            l: 180,
+            r: 100,
+            b: 50,
+            t: 50,
+            pad: 4
+        },
+        bargap: 0.1,
+        barmode: 'stack',
+        xaxis: {
+            tickformat: ',.0%',
+            range: [0,1]
+        },
+        yaxis: {
+            autorange:'reversed'
+        }
+    };
+
+    var tvMen = menObj;
+    tvMen.x = data.TV.Men
+    tvMen.y = data.TV.Channel
+    var tvWomen = womenObj;
+    tvWomen.x = data.TV.Women
+    tvWomen.y = data.TV.Channel
+    var tvNA = naObj;
+    tvNA.x = data.TV.NA
+    tvNA.y = data.TV.Channel
+
+    plotGenre('Action')
+    $('#button-group').css('left', $('g.plot').position().left);
+    $('#button-group').css('width', $('g .plot')[0].getBoundingClientRect().width);
+    console.log();
+
+  </script>
+</body>
